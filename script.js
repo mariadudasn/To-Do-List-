@@ -17,7 +17,7 @@ function getData(data) {
                 data-bs-target="#modalexcluir" onclick="excluir(${item.ID})"><span class="material-symbols-outlined text-danger">
                 delete
                 </span></button><button class="btn" type="button" data-bs-toggle="modal"
-                data-bs-target="#modaleditar" onclick="editar(${item.TAREFA})"><span class="material-symbols-outlined text-success">
+                data-bs-target="#modaleditar" onclick="editar('${item.TAREFA}')"><span class="material-symbols-outlined text-success">
                 edit
                 </span></button></td>
             </tr>
@@ -63,6 +63,27 @@ function excluirTarefa() {
     deletar = null;
 }
 
+function editar(tarefas){
+    console.log("Item a ser editado: ", tarefas)
+    tarefaAntiga = tarefas
+}
 
+function updateTarefa(){
+    const tarefaNova = document.getElementById("recipient-name2").value
 
-      
+    if (tarefaNova.trim() !==""){
+        const apiUrl = `http://127.0.0.1:5000/update/${tarefaAntiga}/${tarefaNova}`
+
+        axios.put(apiUrl)
+        .then(function(response){
+            console.log('Item editado com sucesso:', response.data);
+            alert('Item editado com sucesso!');
+        })
+        .catch(error => {
+            console.error('Erro ao editar o item:', error);
+            alert('Erro ao editar item.')
+        });
+    }else{
+        alert("Por favor, insira uma informação antes de adicionar à API.")
+    }
+}
